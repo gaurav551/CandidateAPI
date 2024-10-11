@@ -1,5 +1,5 @@
 using CandidateAPI.Data;
-using CandidateAPI.Services;
+using CandidateAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -9,7 +9,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlite(connectionString));
-builder.Services.AddTransient<ICandidateService, CandidateService>();
+builder.Services.AddTransient<ICandidateRepository, CandidateRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

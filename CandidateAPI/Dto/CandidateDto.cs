@@ -22,7 +22,7 @@ namespace CandidateAPI.Dto
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
-        public string CallTimeInterval { get; set; }
+        public string BestCallTime { get; set; }
 
         [RegularExpression(RegexPatterns.LinkedInProfileUrl, ErrorMessage = "Invalid LinkedIn profile URL.")]
         public string LinkedInProfileURL { get; set; }
@@ -30,7 +30,7 @@ namespace CandidateAPI.Dto
         [RegularExpression(RegexPatterns.GitHubProfileUrl, ErrorMessage = "Invalid GitHub profile URL.")]
         public string GitHubProfileURL { get; set; }
 
-        public string Comments { get; set; }
+        public string Comment { get; set; }
 
 
 

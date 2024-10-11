@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using CandidateAPI.Dto;
 
-namespace CandidateAPI.Services
+namespace CandidateAPI.Repositories
 {
-    public interface ICandidateService
+    public interface ICandidateRepository
     {
         CandidateDto GetCandidateByEmail(string email);
-        void CreateCandidate();
-        void UpdateCandidate();
+        void CreateCandidate(CandidateDto candidateDto);
+        void UpdateCandidate(CandidateDto candidateDto);
 
     }
 }
