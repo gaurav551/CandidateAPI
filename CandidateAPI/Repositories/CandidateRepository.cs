@@ -24,7 +24,7 @@ namespace CandidateAPI.Repositories
         public CandidateDto GetCandidateByEmail(string email)
         {
             var cachedCandidate = _cacheService.Get<CandidateDto>(email);
-            if(cachedCandidate!=null)
+            if (cachedCandidate != null)
             {
                 //from cache memory;
                 return cachedCandidate;
@@ -32,11 +32,11 @@ namespace CandidateAPI.Repositories
             //if not found in cache, query from database
 
             var candidate = _context.Candidates.FirstOrDefault(c => c.Email == email);
-            if(candidate != null)
+            if (candidate != null)
             {
                 var candidateDto = MapToDto(candidate);
                 //set item to cache
-                _cacheService.Set(email,candidateDto,TimeSpan.FromMinutes(20)); // cache for 20 mins
+                _cacheService.Set(email, candidateDto, TimeSpan.FromMinutes(20)); // cache for 20 mins
                 return candidateDto;
             }
             return null;
@@ -59,7 +59,7 @@ namespace CandidateAPI.Repositories
             _context.Candidates.Add(newCandidate);
             _context.SaveChanges();
             //Add newly added item to cache
-            _cacheService.Set(candidateDto.Email, candidateDto,TimeSpan.FromMinutes(20));
+            _cacheService.Set(candidateDto.Email, candidateDto, TimeSpan.FromMinutes(20));
         }
 
         public void UpdateCandidate(CandidateDto candidateDto)
@@ -80,7 +80,7 @@ namespace CandidateAPI.Repositories
                 _context.Candidates.Update(existingCandidate);
                 _context.SaveChanges();
                 //update the cache as well
-                _cacheService.Set(candidateDto.Email, candidateDto,TimeSpan.FromMinutes(20));
+                _cacheService.Set(candidateDto.Email, candidateDto, TimeSpan.FromMinutes(20));
 
             }
         }
@@ -101,6 +101,6 @@ namespace CandidateAPI.Repositories
             };
         }
 
-        
+
     }
 }

@@ -33,6 +33,7 @@ namespace CandidateAPI.Controllers
             {
                 // If candidate exists, update their information
                 _candidateRepository.UpdateCandidate(candidateDto);
+                
             }
             else
             {

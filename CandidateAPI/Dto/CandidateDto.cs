@@ -15,7 +15,7 @@ namespace CandidateAPI.Dto
 
         [Required(ErrorMessage = "Last name is required")]
         public string LastName { get; set; }
-
+        [RegularExpression(RegexPatterns.PhoneNumber, ErrorMessage = "Invalid Phone Number.")]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
