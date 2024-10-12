@@ -22,7 +22,7 @@ namespace CandidateAPI.Tests
             var candidateDto = new CandidateDto
             {
                 FirstName = "Robert",
-                LastName = "will",
+                LastName = "Will",
                 PhoneNumber = "1234567890",
                 Email = "robert.11@gmail.com",
                 BestCallTime = "10:00 AM - 12:00 PM",
@@ -30,35 +30,40 @@ namespace CandidateAPI.Tests
                 GitHubProfileURL = "https://github.com/robert",
                 Comment = "Test comment"
             };
-            _mockRepository.Setup(r => r.GetCandidateByEmail(candidateDto.Email)).Returns((CandidateDto)null);
 
-            var result = _controller.CreateOrUpdateCandidate(candidateDto) as OkResult;
-
+            _mockRepository.Setup(r => r.GetCandidateByEmail(candidateDto.Email)).Returns((CandidateDto)null); // Candidate doesn't exist
+            var result = _controller.CreateOrUpdateCandidate(candidateDto) as ObjectResult;
             Assert.NotNull(result);
-            Assert.Equal(200, result.StatusCode);
-            _mockRepository.Verify(r => r.CreateCandidate(candidateDto), Times.Once);
+            Assert.Equal(201, result.StatusCode);
+            Assert.Equal("Candidate created successfully.", result.Value); // check the response
+            _mockRepository.Verify(r => r.CreateCandidate(It.IsAny<CandidateDto>()), Times.Once); // Verify candidate creation
+            _mockRepository.Verify(r => r.UpdateCandidate(It.IsAny<CandidateDto>()), Times.Never); // Ensure update isn't called
         }
+
         [Fact]
         public void CreateOrUpdateCandidate_ExistingCandidate_UpdatesCandidate()
         {
             var candidateDto = new CandidateDto
             {
                 FirstName = "Robert",
-                LastName = "will",
+                LastName = "Will",
                 PhoneNumber = "1234567890",
                 Email = "robert.11@gmail.com",
                 BestCallTime = "10:00 AM - 12:00 PM",
                 LinkedInProfileURL = "https://linkedin.com/in/robert",
                 GitHubProfileURL = "https://github.com/robert",
-                Comment = "Hi i am robert"
+                Comment = "Hi, I am Robert"
             };
-            _mockRepository.Setup(r => r.GetCandidateByEmail(candidateDto.Email)).Returns(candidateDto);
 
-            var result = _controller.CreateOrUpdateCandidate(candidateDto) as OkResult;
+            _mockRepository.Setup(r => r.GetCandidateByEmail(candidateDto.Email)).Returns(candidateDto);
+            var result = _controller.CreateOrUpdateCandidate(candidateDto) as OkObjectResult;
             Assert.NotNull(result);
             Assert.Equal(200, result.StatusCode);
-            _mockRepository.Verify(r => r.UpdateCandidate(candidateDto), Times.Once);
+            Assert.Equal("Candidate updated successfully.", result.Value); // Verify the message
+            _mockRepository.Verify(r => r.UpdateCandidate(It.IsAny<CandidateDto>()), Times.Once);
+            _mockRepository.Verify(r => r.CreateCandidate(It.IsAny<CandidateDto>()), Times.Never);
         }
+
         [Fact]
         public void CreateOrUpdateCandidate_InvalidModel()
         {
