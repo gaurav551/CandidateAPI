@@ -26,28 +26,31 @@ namespace CandidateAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            try{
-            var existingCandidate = _candidateRepository.GetCandidateByEmail(candidateDto.Email);
+            try
+            {
+                var existingCandidate = _candidateRepository.GetCandidateByEmail(candidateDto.Email);
 
-            if (existingCandidate != null)
-            {
-                // If candidate exists, update their information
-                _candidateRepository.UpdateCandidate(candidateDto);
-                
-            }
-            else
-            {
-                // If candidate does not exist, create a new one
-                _candidateRepository.CreateCandidate(candidateDto);
-            }
-            return Ok();
+                if (existingCandidate != null)
+                {
+                    // If candidate exists, update their information
+                    _candidateRepository.UpdateCandidate(candidateDto);
+                    return Ok("Candidate updated successfully.");
+                }
+                else
+                {
+                    // If candidate does not exist, create a new one
+                    _candidateRepository.CreateCandidate(candidateDto);
+                    return StatusCode(201, "Candidate created successfully."); 
+
+                }
+
             }
             catch (Exception ex)
             {
-              //we can log the exception
-              return StatusCode(500, "An unexpected error occurred.");
+                //we can log the exception
+                return StatusCode(500, "An unexpected error occurred.");
             }
-           
+
         }
 
     }
